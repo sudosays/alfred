@@ -1,6 +1,8 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import formatAmount from './Util';
+
 
 
 class Summary extends React.Component {
@@ -48,17 +50,6 @@ function BudgetAmount(props) {
     return (
         <h2 className="amount-neutral">{formatAmount(props.amount)}</h2>
     );
-
-}
-
-function formatAmount(i) {
-
-    return (new Intl.NumberFormat(
-        'en-ZA',
-        {
-            style: 'currency',
-            currency: 'ZAR'
-        }).format(i));
 
 }
 
