@@ -1,8 +1,13 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import TransactionList from './Components/TransactionList';
 import formatAmount from './Util';
 
+const MOCK_TRANSACTIONS = [
+    {date: '10-05-2020', label: 'Test', amount: 100},
+    {date: '10-05-2020', label: 'Test 2', amount: -100},
+];
 
 
 class Summary extends React.Component {
@@ -75,6 +80,7 @@ class App extends React.Component {
                 <button onClick={() => this.addCash()}>Add Cash</button>
                 <button onClick={() => this.removeCash()}>Remove Cash</button>
               </header>
+                <TransactionList transactions={MOCK_TRANSACTIONS}/>
             </div>
         );
     }
