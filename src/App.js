@@ -1,5 +1,5 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {Component, Fragment} from 'react';
+import logo from './Assets/logo.svg';
 import './App.scss';
 import TransactionList from './Components/TransactionList';
 import Summary from './Components/Summary';
@@ -9,7 +9,7 @@ const MOCK_TRANSACTIONS = [
     {date: '10-05-2020', label: 'Test 2', amount: -100},
 ];
 
-class App extends React.Component {
+class App extends Component {
 
     constructor(props) {
         super(props)
@@ -23,18 +23,26 @@ class App extends React.Component {
     render() {
         return (
             <div className="App">
-              <header className="App-header">
+                <header className="App-header">
                 <img src={logo} className="App-logo" alt="logo" />
                 <Summary remaining={this.state.remaining} budget={this.state.budget}/>
-                <button class="button is-primary" onClick={() => this.increaseBudget()}>Increase Budget</button>
-                <button onClick={() => this.decreaseBudget()}>Decrease Budget</button>
-                <button onClick={() => this.addCash()}>Add Cash</button>
-                <button onClick={() => this.removeCash()}>Remove Cash</button>
-              </header>
+                </header>    
+                {this.addTestingButtons()}
                 <TransactionList transactions={MOCK_TRANSACTIONS}/>
             </div>
         );
     }
+
+    addTestingButtons() {
+        return (
+            <Fragment>
+                <button class="button" onClick={() => this.increaseBudget()}>Increase Budget</button>
+                <button class="button" onClick={() => this.decreaseBudget()}>Decrease Budget</button>
+                <button class="button" onClick={() => this.addCash()}>Add Cash</button>
+                <button class="button" onClick={() => this.removeCash()}>Remove Cash</button>
+            </Fragment>
+        )
+    };
 
     //--- Helper test functions ---//
     increaseBudget() {

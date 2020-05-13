@@ -21,7 +21,7 @@ class TransactionList extends Component {
             rows = null;
         }
         return (
-            <table class="table is-fullwidth">
+            <table class="table is-fullwidth is-striped">
             {rows ? (
                 <thead>
                 <tr>
