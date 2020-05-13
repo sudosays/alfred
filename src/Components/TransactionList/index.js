@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import formatAmount from '../../Util';
-
+import {formatAmount, getColorIndicator} from '../../Util';
 
 class TransactionList extends Component {
 
@@ -15,20 +14,22 @@ class TransactionList extends Component {
                 <tr>
                 <td>{item.date}</td>
                 <td>{item.label}</td>
-                <td>{formatAmount(item.amount)}</td>
+                <td className={getColorIndicator(item.amount)}>{formatAmount(item.amount)}</td>
                 </tr>
             ));
         } else {
             rows = null;
         }
         return (
-            <table>
+            <table class="table is-fullwidth">
             {rows ? (
+                <thead>
                 <tr>
                     <th>Date</th>
                     <th>Label</th>
                     <th>Amount</th>
                 </tr>
+                </thead>
             ) : null }
             {rows}
             </table>
