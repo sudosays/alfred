@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import {formatAmount, getColorIndicator} from '../../Util';
 
 class TransactionList extends Component {
@@ -11,7 +11,7 @@ class TransactionList extends Component {
 
         if (transactions) {
             rows = transactions.map((item) => (
-                <tr>
+                <tr key={item.date + item.label}>
                 <td>{item.date}</td>
                 <td>{item.label}</td>
                 <td className={getColorIndicator(item.amount)}>{formatAmount(item.amount)}</td>
@@ -21,8 +21,9 @@ class TransactionList extends Component {
             rows = null;
         }
         return (
-            <table class="table is-fullwidth is-striped">
+            <table class="table is-fullwidth is-striped is-hoverable">
             {rows ? (
+                <Fragment>
                 <thead>
                 <tr>
                     <th>Date</th>
@@ -30,8 +31,11 @@ class TransactionList extends Component {
                     <th>Amount</th>
                 </tr>
                 </thead>
+                <tbody>
+                    {rows}
+                </tbody>
+                </Fragment>
             ) : null }
-            {rows}
             </table>
         );
 
