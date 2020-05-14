@@ -2,6 +2,7 @@ import React, {Component, Fragment} from 'react';
 import logo from './Assets/logo.svg';
 import './App.scss';
 import TransactionList from './Components/TransactionList';
+import TransactionForm from './Components/TransactionForm';
 import Summary from './Components/Summary';
 
 const MOCK_TRANSACTIONS = [
@@ -28,6 +29,7 @@ class App extends Component {
                 <Summary remaining={this.state.remaining} budget={this.state.budget}/>
                 </header>    
                 {this.addTestingButtons()}
+                <TransactionForm formSubmit={this.formSubmit}/>
                 <TransactionList transactions={MOCK_TRANSACTIONS}/>
             </div>
         );
@@ -43,6 +45,11 @@ class App extends Component {
             </Fragment>
         )
     };
+
+    formSubmit(event) {
+        event.preventDefault();
+        console.log("FORM SUBMITTED!")
+    }
 
     //--- Helper test functions ---//
     increaseBudget() {
