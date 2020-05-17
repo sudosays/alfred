@@ -10,6 +10,8 @@ const MOCK_TRANSACTIONS = [
     {date: '10-05-2020', label: 'Test 2', amount: -100},
 ];
 
+const SHOW_DEBUG_BUTTONS = false
+
 class App extends Component {
 
     constructor(props) {
@@ -17,7 +19,10 @@ class App extends Component {
         this.state = {
             remaining: 0,
             budget: 0,
+            transactions: MOCK_TRANSACTIONS,
         };
+
+        this.addTransaction = this.addTransaction.bind(this)
     }
 
 
@@ -28,9 +33,9 @@ class App extends Component {
                 <img src={logo} className="App-logo" alt="logo" />
                 <Summary remaining={this.state.remaining} budget={this.state.budget}/>
                 </header>    
-                {this.addTestingButtons()}
-                <TransactionForm formSubmit={this.formSubmit}/>
-                <TransactionList transactions={MOCK_TRANSACTIONS}/>
+                {SHOW_DEBUG_BUTTONS ? this.addTestingButtons() : ''}
+                <TransactionForm formSubmit={this.addTransaction}/>
+                <TransactionList transactions={this.state.transactions}/>
             </div>
         );
     }
@@ -46,9 +51,19 @@ class App extends Component {
         )
     };
 
-    formSubmit(event) {
-        event.preventDefault();
-        console.log("FORM SUBMITTED!")
+    addTransaction(tDate, tLabel, tAmount) {
+        var updatedTransactions = this.state.transactions.slice()
+        
+        updatedTransactions.push({
+            date: tDate,
+            label: tLabel,
+            amount: tAmount
+        });
+
+        this.setState({
+            transactions: updatedTransactions
+        });
+    
     }
 
     //--- Helper test functions ---//
