@@ -19,7 +19,7 @@ class TransactionInput extends Component {
     render() {
         
         return (
-            <div>
+            <div className="transaction-form">
                 <form onSubmit={this.submitForm}>
                     <input name="date" 
                         onChange={this.handleInputChange}
