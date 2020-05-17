@@ -44,7 +44,7 @@ class TransactionForm extends Component {
                     </select>
                     <input name="amount" 
                         onChange={this.handleInputChange}
-                        class="input" type="number" 
+                        class="input" type="number" step=".01"
                         placeholder="Amount"
                         value={this.state.amount}
                     />
