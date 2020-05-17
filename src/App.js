@@ -1,7 +1,8 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {Component, Fragment} from 'react';
+import logo from './Assets/logo.svg';
 import './App.scss';
 import TransactionList from './Components/TransactionList';
+import TransactionForm from './Components/TransactionForm';
 import Summary from './Components/Summary';
 
 const MOCK_TRANSACTIONS = [
@@ -9,31 +10,60 @@ const MOCK_TRANSACTIONS = [
     {date: '10-05-2020', label: 'Test 2', amount: -100},
 ];
 
-class App extends React.Component {
+const SHOW_DEBUG_BUTTONS = false
+
+class App extends Component {
 
     constructor(props) {
         super(props)
         this.state = {
             remaining: 0,
             budget: 0,
+            transactions: MOCK_TRANSACTIONS,
         };
+
+        this.addTransaction = this.addTransaction.bind(this)
     }
 
 
     render() {
         return (
             <div className="App">
-              <header className="App-header">
+                <header className="App-header">
                 <img src={logo} className="App-logo" alt="logo" />
                 <Summary remaining={this.state.remaining} budget={this.state.budget}/>
-                <button class="button is-primary" onClick={() => this.increaseBudget()}>Increase Budget</button>
-                <button onClick={() => this.decreaseBudget()}>Decrease Budget</button>
-                <button onClick={() => this.addCash()}>Add Cash</button>
-                <button onClick={() => this.removeCash()}>Remove Cash</button>
-              </header>
-                <TransactionList transactions={MOCK_TRANSACTIONS}/>
+                </header>    
+                {SHOW_DEBUG_BUTTONS ? this.addTestingButtons() : ''}
+                <TransactionForm formSubmit={this.addTransaction}/>
+                <TransactionList transactions={this.state.transactions}/>
             </div>
         );
+    }
+
+    addTestingButtons() {
+        return (
+            <Fragment>
+                <button class="button" onClick={() => this.increaseBudget()}>Increase Budget</button>
+                <button class="button" onClick={() => this.decreaseBudget()}>Decrease Budget</button>
+                <button class="button" onClick={() => this.addCash()}>Add Cash</button>
+                <button class="button" onClick={() => this.removeCash()}>Remove Cash</button>
+            </Fragment>
+        )
+    };
+
+    addTransaction(tDate, tLabel, tAmount) {
+        var updatedTransactions = this.state.transactions.slice()
+        
+        updatedTransactions.push({
+            date: tDate,
+            label: tLabel,
+            amount: tAmount
+        });
+
+        this.setState({
+            transactions: updatedTransactions
+        });
+    
     }
 
     //--- Helper test functions ---//
