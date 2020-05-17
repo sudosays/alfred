@@ -1,13 +1,14 @@
 import React, {Component} from 'react';
 import './TransactionForm.scss';
 
-class TransactionInput extends Component {
+class TransactionForm extends Component {
 
     constructor(props) {
         super(props)
         this.state = {
             date: "",
             label: "",
+            category: "",
             amount: ""
         };
 
@@ -33,6 +34,14 @@ class TransactionInput extends Component {
                         placeholder="Label"
                         value={this.state.label}
                     />
+                    <select name="category"
+                        class="select"
+                        onChange={this.handleInputChange}
+                        value={this.state.category}
+                    >
+                        <option value="utilities">Utilities</option>
+                        <option value="income">Income</option>
+                    </select>
                     <input name="amount" 
                         onChange={this.handleInputChange}
                         class="input" type="number" 
@@ -64,8 +73,8 @@ class TransactionInput extends Component {
 
         //Input check
         if (this.checkInput()) {
-        
-            this.props.formSubmit(this.state.date, this.state.label, this.state.amount)
+
+            this.props.formSubmit(this.state)
             this.setState({
                 date:'',
                 label:'',
@@ -78,8 +87,7 @@ class TransactionInput extends Component {
         //TODO data sanitisation correctness etc
         const date = this.state.date
         const label = this.state.label
-        const amount = this.state.amount
-
+        const amount = parseFloat(this.state.amount)
 
         if (date && label && amount) {
             return true
@@ -90,4 +98,4 @@ class TransactionInput extends Component {
 
 };
 
-export default TransactionInput;
+export default TransactionForm;
