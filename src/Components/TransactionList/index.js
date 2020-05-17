@@ -10,7 +10,7 @@ class TransactionList extends Component {
         let rows;
 
         if (transactions) {
-            rows = transactions.map((item) => (
+            rows = transactions.reverse().map((item) => (
                 <tr key={item.date + item.label}>
                 <td>{item.date}</td>
                 <td>{item.label}</td>
