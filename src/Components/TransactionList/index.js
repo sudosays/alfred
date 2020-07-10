@@ -10,10 +10,11 @@ class TransactionList extends Component {
         let rows;
 
         if (transactions) {
-            rows = transactions.map((item) => (
+            rows = transactions.reverse().map((item) => (
                 <tr key={item.date + item.label}>
                 <td>{item.date}</td>
                 <td>{item.label}</td>
+                <td>{item.category}</td>
                 <td className={getColorIndicator(item.amount)}>{formatAmount(item.amount)}</td>
                 </tr>
             ));
@@ -28,6 +29,7 @@ class TransactionList extends Component {
                 <tr>
                     <th>Date</th>
                     <th>Label</th>
+                    <th>Category</th>
                     <th>Amount</th>
                 </tr>
                 </thead>

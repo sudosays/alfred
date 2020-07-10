@@ -3,3 +3,14 @@
 @import 'bulma/sass/layout/_all.sass';
 @import 'bulma/sass/form/shared.sass';
 @import 'bulma/sass/form/input-textarea.sass';
+@import 'bulma/sass/form/select.sass';
+
+
+.transaction-form {
+    margin: 2px 2px;
+    padding: 2px;
+
+    input {
+        margin: 3px 3px;
+    }
+}

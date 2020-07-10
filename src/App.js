@@ -5,10 +5,19 @@ import TransactionList from './Components/TransactionList';
 import TransactionForm from './Components/TransactionForm';
 import Summary from './Components/Summary';
 
+const CATEGORIES = [
+    "utilities",
+    "food",
+    "transport",
+    "entertainment",
+    "income"
+]
+
 const MOCK_TRANSACTIONS = [
-    {date: '10-05-2020', label: 'Test', amount: 100},
-    {date: '10-05-2020', label: 'Test 2', amount: -100},
+    {date: '10-05-2020', label: 'Rent', category: CATEGORIES[0], amount: -100},
+    {date: '10-05-2020', label: 'Salary', category: CATEGORIES[4], amount: 100},
 ];
+
 
 const SHOW_DEBUG_BUTTONS = false
 
@@ -51,17 +60,23 @@ class App extends Component {
         )
     };
 
-    addTransaction(tDate, tLabel, tAmount) {
+    addTransaction(transaction) {
         var updatedTransactions = this.state.transactions.slice()
         
         updatedTransactions.push({
-            date: tDate,
-            label: tLabel,
-            amount: tAmount
+            date: transaction.date,
+            label: transaction.label,
+            category: transaction.category,
+            amount: transaction.amount
         });
-
+    
+        const balance = this.state.remaining
+        
+        const amount = parseFloat(transaction.amount)
+        
         this.setState({
-            transactions: updatedTransactions
+            transactions: updatedTransactions,
+            remaining: balance + amount
         });
     
     }

@@ -1,15 +1,18 @@
 import React, {Component} from 'react';
 import './TransactionForm.scss';
 
-class TransactionInput extends Component {
+class TransactionForm extends Component {
 
     constructor(props) {
         super(props)
         this.state = {
             date: "",
             label: "",
-            amount: ""
-        };
+            category: "",
+            amount: "",
+            recurring: false,
+            recurrancePeriod: ""
+        }
 
         this.submitForm = this.submitForm.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -19,7 +22,7 @@ class TransactionInput extends Component {
     render() {
         
         return (
-            <div>
+            <div className="transaction-form">
                 <form onSubmit={this.submitForm}>
                     <input name="date" 
                         onChange={this.handleInputChange}
@@ -33,12 +36,27 @@ class TransactionInput extends Component {
                         placeholder="Label"
                         value={this.state.label}
                     />
+                    <select name="category"
+                        class="select"
+                        onChange={this.handleInputChange}
+                        value={this.state.category}
+                    >
+                        <option value="utilities">Utilities</option>
+                        <option value="income">Income</option>
+                    </select>
                     <input name="amount" 
                         onChange={this.handleInputChange}
-                        class="input" type="number" 
+                        class="input" type="number" step=".01"
                         placeholder="Amount"
                         value={this.state.amount}
                     />
+                    <label class ="checkbox">
+                        <input name="recurring"
+                            onChange={this.handleInputChange}
+                            type="checkbox"
+                            checked={this.state.recurring}/>
+                        Recurring
+                    </label><br></br>
                     <input class="button is-primary" type="submit" value="Submit"/>
                 </form>
             </div>
@@ -48,9 +66,9 @@ class TransactionInput extends Component {
 
     handleInputChange(event) {
         const target = event.target
-        const value = target.value
+        const value = (target.name === "recurring" ? target.checked : target.value)
         const name = target.name
-
+        
         this.setState({
             [name]: value
         });
@@ -64,12 +82,14 @@ class TransactionInput extends Component {
 
         //Input check
         if (this.checkInput()) {
-        
-            this.props.formSubmit(this.state.date, this.state.label, this.state.amount)
+
+            this.props.formSubmit(this.state)
             this.setState({
-                date:'',
-                label:'',
-                amount:''
+                date:"",
+                label:"",
+                amount:"",
+                recurring: false,
+                recurrancePeriod: ""
             });
         }
     };
@@ -78,8 +98,7 @@ class TransactionInput extends Component {
         //TODO data sanitisation correctness etc
         const date = this.state.date
         const label = this.state.label
-        const amount = this.state.amount
-
+        const amount = parseFloat(this.state.amount)
 
         if (date && label && amount) {
             return true
@@ -90,4 +109,4 @@ class TransactionInput extends Component {
 
 };
 
-export default TransactionInput;
+export default TransactionForm;
