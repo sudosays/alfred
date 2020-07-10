@@ -9,8 +9,10 @@ class TransactionForm extends Component {
             date: "",
             label: "",
             category: "",
-            amount: ""
-        };
+            amount: "",
+            recurring: false,
+            recurrancePeriod: ""
+        }
 
         this.submitForm = this.submitForm.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -48,6 +50,13 @@ class TransactionForm extends Component {
                         placeholder="Amount"
                         value={this.state.amount}
                     />
+                    <label class ="checkbox">
+                        <input name="recurring"
+                            onChange={this.handleInputChange}
+                            type="checkbox"
+                            checked={this.state.recurring}/>
+                        Recurring
+                    </label><br></br>
                     <input class="button is-primary" type="submit" value="Submit"/>
                 </form>
             </div>
@@ -57,9 +66,9 @@ class TransactionForm extends Component {
 
     handleInputChange(event) {
         const target = event.target
-        const value = target.value
+        const value = (target.name === "recurring" ? target.checked : target.value)
         const name = target.name
-
+        
         this.setState({
             [name]: value
         });
@@ -76,9 +85,11 @@ class TransactionForm extends Component {
 
             this.props.formSubmit(this.state)
             this.setState({
-                date:'',
-                label:'',
-                amount:''
+                date:"",
+                label:"",
+                amount:"",
+                recurring: false,
+                recurrancePeriod: ""
             });
         }
     };
