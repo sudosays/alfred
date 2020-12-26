@@ -4,6 +4,16 @@ import './App.scss';
 import TransactionList from './Components/TransactionList';
 import TransactionForm from './Components/TransactionForm';
 import Summary from './Components/Summary';
+import {newestDateFirstSort} from './Util';
+
+// For now recurrence is assumed at the start of every month
+// Later can specify recurrence period
+
+var settings = {
+    monthly_budget: 3000.00,
+}
+
+
 
 const CATEGORIES = [
     "utilities",
@@ -14,8 +24,20 @@ const CATEGORIES = [
 ]
 
 const MOCK_TRANSACTIONS = [
-    {date: '10-05-2020', label: 'Rent', category: CATEGORIES[0], amount: -100},
-    {date: '10-05-2020', label: 'Salary', category: CATEGORIES[4], amount: 100},
+    {
+        date: Date.now(), 
+        label: 'Rent', 
+        category: CATEGORIES[0], 
+        amount: -100,
+        recurring: true
+    },
+    {
+        date: Date.parse('2020-10-05'), 
+        label: 'Salary',
+        category: CATEGORIES[4],
+        amount: 100, 
+        recurring: true
+    },
 ];
 
 
@@ -27,13 +49,16 @@ class App extends Component {
         super(props)
         this.state = {
             remaining: 0,
-            budget: 0,
-            transactions: MOCK_TRANSACTIONS,
+            budget: settings.monthly_budget, 
+            transactions: MOCK_TRANSACTIONS.sort(newestDateFirstSort),
         };
 
         this.addTransaction = this.addTransaction.bind(this)
     }
 
+    componentDidMount() {
+        this.calculateRemainingFromTransactions()
+    }
 
     render() {
         return (
@@ -67,9 +92,12 @@ class App extends Component {
             date: transaction.date,
             label: transaction.label,
             category: transaction.category,
-            amount: transaction.amount
+            amount: parseFloat(transaction.amount),
+            recurring: transaction.recurring
         });
-    
+        
+        updatedTransactions.sort(newestDateFirstSort)
+
         const balance = this.state.remaining
         
         const amount = parseFloat(transaction.amount)
@@ -81,41 +109,21 @@ class App extends Component {
     
     }
 
-    //--- Helper test functions ---//
-    increaseBudget() {
-        var budget = this.state.budget;
-        budget = budget + 100;
-        this.setState({
-            budget: budget,
-            remaining: this.state.remaining,
-        });
-    }
+    calculateRemainingFromTransactions() {
+        const startOfMonth = new Date(Date.now()).setDate(1)
 
-    decreaseBudget() {
-        var budget = this.state.budget;
-        budget = budget - 100;
-        this.setState({
-            budget: budget,
-            remaining: this.state.remaining,
-        });
-    }
+        console.log(startOfMonth)
 
-    addCash() {
-        var remaining = this.state.remaining;
-        remaining = remaining + 100;
+        const transactions = this.state.transactions.slice().filter(t => t.date > startOfMonth)
+        transactions.sort(newestDateFirstSort)
+
+        var total = transactions.map(t => t.amount).reduce((a, b) => a + b, 0);
+                
+
+        const remainingAmount = this.state.budget + total
         this.setState({
-            budget: this.state.budget,
-            remaining: remaining,
-        });
-    }
-    
-    removeCash() {
-        var remaining = this.state.remaining;
-        remaining = remaining - 100;
-        this.setState({
-            budget: this.state.budget,
-            remaining: remaining,
-        });
+            remaining: remainingAmount
+        })
     }
 }
 

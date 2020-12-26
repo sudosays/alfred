@@ -25,5 +25,27 @@ const getColorIndicator = amount => {
     return colorIndicator;
 };
 
+const newestDateFirstSort = (a, b) => {
+    if (a.date < b.date) {
+        return -1;
+    } else if (a.date > b.date) {
+        return 1;
+    } else {
+        return 0;
+    }
+}
+
+const oldestDateFirstSort = (a, b) => {
+    if (a.date < b.date) {
+        return 1;
+    } else if (a.date > b.date) {
+        return -1;
+    } else {
+        return 0;
+    }
+}
+
+
+
 export default formatAmount;
-export {formatAmount, getColorIndicator};
+export {formatAmount, getColorIndicator, newestDateFirstSort, oldestDateFirstSort};

@@ -16,7 +16,7 @@ class TransactionForm extends Component {
 
         this.submitForm = this.submitForm.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
-        this.checkInput = this.checkInput.bind(this); 
+        this.validateInput = this.validateInput.bind(this); 
     }
 
     render() {
@@ -27,6 +27,7 @@ class TransactionForm extends Component {
                     <input name="date" 
                         onChange={this.handleInputChange}
                         class="input" type="datetime-local" 
+                        type="date"
                         placeholder="Date"
                         value={this.state.date}
                     /> 
@@ -81,8 +82,9 @@ class TransactionForm extends Component {
         event.preventDefault()
 
         //Input check
-        if (this.checkInput()) {
+        var success = this.validateInput()
 
+        if (success) {
             this.props.formSubmit(this.state)
             this.setState({
                 date:"",
@@ -94,11 +96,12 @@ class TransactionForm extends Component {
         }
     };
 
-    checkInput() {
+    validateInput() {
         //TODO data sanitisation correctness etc
-        const date = this.state.date
+        const date = Date.parse(this.state.date)
         const label = this.state.label
         const amount = parseFloat(this.state.amount)
+        const recurring = this.state.recurring
 
         if (date && label && amount) {
             return true

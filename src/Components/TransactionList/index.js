@@ -12,7 +12,7 @@ class TransactionList extends Component {
         if (transactions) {
             rows = transactions.reverse().map((item) => (
                 <tr key={item.date + item.label}>
-                <td>{item.date}</td>
+                <td>{new Date(item.date).toLocaleDateString('en-ZA')}</td>
                 <td>{item.label}</td>
                 <td>{item.category}</td>
                 <td className={getColorIndicator(item.amount)}>{formatAmount(item.amount)}</td>
