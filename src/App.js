@@ -3,6 +3,7 @@ import logo from './Assets/logo.svg';
 import './App.scss';
 import TransactionList from './Components/TransactionList';
 import TransactionForm from './Components/TransactionForm';
+import SettingsForm from './Components/Settings';
 import Summary from './Components/Summary';
 import {newestDateFirstSort} from './Util';
 
@@ -10,7 +11,7 @@ import {newestDateFirstSort} from './Util';
 // Later can specify recurrence period
 
 var settings = {
-    monthly_budget: 3000.00,
+    monthly_budget: 10000.00,
 }
 
 
@@ -70,6 +71,7 @@ class App extends Component {
                 {SHOW_DEBUG_BUTTONS ? this.addTestingButtons() : ''}
                 <TransactionForm formSubmit={this.addTransaction}/>
                 <TransactionList transactions={this.state.transactions}/>
+                <SettingsForm/> 
             </div>
         );
     }
